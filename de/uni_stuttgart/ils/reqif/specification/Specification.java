@@ -157,7 +157,7 @@ public class Specification {
 				
 				if(!this.attributeValues.containsKey(attributeDefinition.getName())) { 
 					
-					switch(attributeDefinition.getType().getType()) {
+					switch(attributeDefinition.getDataType().getType()) {
 					
 						case ReqIFConst.BOOLEAN:		this.attributeValues.put(attributeDefinition.getName(), new AttributeValueBoolean(attributeDefinition.getDefaultValue(), attributeDefinition));
 														break;

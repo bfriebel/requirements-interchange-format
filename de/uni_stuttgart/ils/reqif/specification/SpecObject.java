@@ -20,7 +20,8 @@ public class SpecObject {
 	
 	
 	private String id;
-	private SpecType type;
+	private SpecType specType;
+	private String type;
 	private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
 	
 	
@@ -30,12 +31,16 @@ public class SpecObject {
 		return this.id;
 	}
 	
+	public String getType() {
+		return this.type;
+	}
+	
 	public String getSpecType() {
-		return this.type.getType();
+		return this.specType.getType();
 	}
 	
 	public String getSpecTypeName() {
-		return this.type.getName();
+		return this.specType.getName();
 	}
 	
 	public Map<String, AttributeValue> getAttributes() {
@@ -48,7 +53,7 @@ public class SpecObject {
 	
 	public boolean isREQ() {
 		boolean temp = false;
-		if(this.type.getType().equals(ReqIFConst.REQ)) {
+		if(this.type.equals(ReqIFConst.REQ)) {
 			
 			for(AttributeValue attValue: this.attributeValues.values()) {
 				
@@ -67,7 +72,7 @@ public class SpecObject {
 	}
 	
 	public boolean isHeadline() {
-		if(this.type.getType().equals(ReqIFConst.HEADLINE)) {
+		if(this.type.equals(ReqIFConst.HEADLINE)) {
 			return true;
 		}else{
 			return false;
@@ -76,7 +81,7 @@ public class SpecObject {
 	
 	public boolean isSubReq() {
 		boolean temp = false;
-		if(this.type.getType().equals(ReqIFConst.REQ)) {
+		if(this.type.equals(ReqIFConst.REQ)) {
 			
 			for(AttributeValue attValue: this.attributeValues.values()) {
 				
@@ -108,10 +113,25 @@ public class SpecObject {
 	public SpecObject(Node specObject, SpecType specType) {
 		
 		this.id = specObject.getAttributes().getNamedItem(ReqIFConst.IDENTIFIER).getTextContent();
-		this.type = specType;
+		this.specType = specType;
+		
+		if(this.specType.getName().toLowerCase().contains(ReqIFConst.REQ.toLowerCase())) {
+			
+			if(this.specType.getName().toLowerCase().contains(ReqIFConst.SUB.toLowerCase())) {
+				this.type = ReqIFConst.SUB_REQ;
+			
+			}else{
+				this.type = ReqIFConst.REQ;
+			}
+		}else if(this.specType.getName().toLowerCase().contains(ReqIFConst.HEADLINE.toLowerCase())) {
+			this.type = ReqIFConst.HEADLINE;
+		
+		}else{
+			this.type = ReqIFConst.TEXT;
+		}
 		
 		if(			((Element)specObject).getElementsByTagName(ReqIFConst.VALUES).getLength() > 0
-				&&	((Element)specObject).getElementsByTagName(ReqIFConst.VALUES).item(0).getChildNodes().getLength() > 0		) {
+				&&	((Element)specObject).getElementsByTagName(ReqIFConst.VALUES).item(0).hasChildNodes()		) {
 			
 			NodeList attributeValues = ((Element)specObject).getElementsByTagName(ReqIFConst.VALUES).item(0).getChildNodes();
 			for(int attval = 0; attval < attributeValues.getLength(); attval++) {
@@ -171,7 +191,7 @@ public class SpecObject {
 				
 				if(!this.attributeValues.containsKey(attributeDefinition.getName())) { 
 					
-					switch(attributeDefinition.getType().getType()) {
+					switch(attributeDefinition.getDataType().getType()) {
 					
 						case ReqIFConst.BOOLEAN:		this.attributeValues.put(attributeDefinition.getName(), new AttributeValueBoolean(attributeDefinition.getDefaultValue(), attributeDefinition));
 												break;

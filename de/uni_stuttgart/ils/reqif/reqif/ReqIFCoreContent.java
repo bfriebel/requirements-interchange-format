@@ -143,20 +143,20 @@ public class ReqIFCoreContent {
 				if(!specTypeNodeName.equals(ReqIFConst._TEXT)) {
 					
 					String specTypeID = specType.getAttributes().getNamedItem(ReqIFConst.IDENTIFIER).getTextContent();
-	
-					switch(specTypeNodeName.substring(0, specTypeNodeName.lastIndexOf("-"))) {
 					
-						case ReqIFConst.SPECIFICATION_TYPE: 	this.specTypes.put(specTypeID, new SpecificationType(specType, this.dataTypes));
-														break;
+					switch(specTypeNodeName) {
+					
+						case ReqIFConst.SPECIFICATION_TYPE: this.specTypes.put(specTypeID, new SpecificationType(specType, this.dataTypes));
+															break;
 					
 						case ReqIFConst.SPEC_OBJECT_TYPE: 	this.specTypes.put(specTypeID, new SpecObjectType(specType, this.dataTypes));
-														break;
+															break;
 					
-						case ReqIFConst.SPEC_RELATION_TYPE: 	this.specTypes.put(specTypeID, new SpecRelationType(specType, this.dataTypes));
-														break;
+						case ReqIFConst.SPEC_RELATION_TYPE: this.specTypes.put(specTypeID, new SpecRelationType(specType, this.dataTypes));
+															break;
 						
-						default:						this.specTypes.put(specTypeID, new SpecType(specType, this.dataTypes));
-														break;
+						default:							this.specTypes.put(specTypeID, new SpecType(specType, this.dataTypes));
+															break;
 					}
 				}
 			}

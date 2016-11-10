@@ -22,7 +22,7 @@ public class SpecType {
 	private Map<String, AttributeDefinition> attributeDefinitions = new LinkedHashMap<String, AttributeDefinition>();
 	private String id;
 	protected String name;
-	protected String type = ReqIFConst.UNDEFINED;
+	protected String type;
 	
 	
 	
@@ -51,11 +51,11 @@ public class SpecType {
 		
 		for(AttributeDefinition attributeDefinition: this.attributeDefinitions.values()) {
 			
-			if(attributeDefinition.getType().getClass().equals(DatatypeEnumeration.class)) {
+			if(attributeDefinition.getDataType().getClass().equals(DatatypeEnumeration.class)) {
 				
-				if(((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueName(id) != null) {
+				if(((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueName(id) != null) {
 					
-					return ((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueName(id);
+					return ((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueName(id);
 				}
 			}
 		}
@@ -66,11 +66,11 @@ public class SpecType {
 		
 		for(AttributeDefinition attributeDefinition: this.attributeDefinitions.values()) {
 			
-			if(attributeDefinition.getType().getClass().equals(DatatypeEnumeration.class)) {
+			if(attributeDefinition.getDataType().getClass().equals(DatatypeEnumeration.class)) {
 				
-				if(((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueName(id) != null) {
+				if(((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueName(id) != null) {
 					
-					return ((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueKey(id);
+					return ((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueKey(id);
 				}
 			}
 		}
@@ -81,11 +81,11 @@ public class SpecType {
 		
 		for(AttributeDefinition attributeDefinition: this.attributeDefinitions.values()) {
 			
-			if(attributeDefinition.getType().getClass().equals(DatatypeEnumeration.class)) {
+			if(attributeDefinition.getDataType().getClass().equals(DatatypeEnumeration.class)) {
 				
-				if(((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueName(id) != null) {
+				if(((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueName(id) != null) {
 					
-					return ((DatatypeEnumeration)attributeDefinition.getType()).getEnumValueOtherContent(id);
+					return ((DatatypeEnumeration)attributeDefinition.getDataType()).getEnumValueOtherContent(id);
 				}
 			}
 		}
@@ -99,21 +99,7 @@ public class SpecType {
 		
 		this.id = specType.getAttributes().getNamedItem(ReqIFConst.IDENTIFIER).getTextContent();
 		this.name = specType.getAttributes().getNamedItem(ReqIFConst.LONG_NAME).getTextContent();
-		
-		if(this.name.toLowerCase().contains(ReqIFConst.REQ.toLowerCase())) {
-			
-			if(this.name.toLowerCase().contains(ReqIFConst.SUB.toLowerCase())) {
-				this.type = ReqIFConst.SUB_REQ;
-			
-			}else{
-				this.type = ReqIFConst.REQ;
-			}
-		}else if(this.name.toLowerCase().contains(ReqIFConst.HEADLINE.toLowerCase())) {
-			this.type = ReqIFConst.HEADLINE;
-		
-		}else{
-			this.type = ReqIFConst.TEXT;
-		}
+		this.type = ReqIFConst.UNDEFINED;
 		
 		if(specType.getChildNodes().getLength() > 0) {
 			NodeList attributeDefinitions = specType.getChildNodes().item(1).getChildNodes();
@@ -129,22 +115,22 @@ public class SpecType {
 					switch(attDefNodeName.substring(attDefNodeName.lastIndexOf("-")+1)) {
 					
 						case ReqIFConst.BOOLEAN:		this.attributeDefinitions.put(attDefID, new AttributeDefinitionBoolean(attributeDefinition, dataTypes));
-												break;
+														break;
 											
 						case ReqIFConst.INTEGER:		this.attributeDefinitions.put(attDefID, new AttributeDefinitionInteger(attributeDefinition, dataTypes));
-												break;
+														break;
 											
-						case ReqIFConst.STRING:		this.attributeDefinitions.put(attDefID, new AttributeDefinitionString(attributeDefinition, dataTypes));
-												break;
+						case ReqIFConst.STRING:			this.attributeDefinitions.put(attDefID, new AttributeDefinitionString(attributeDefinition, dataTypes));
+														break;
 											
 						case ReqIFConst.ENUMERATION:	this.attributeDefinitions.put(attDefID, new AttributeDefinitionEnumeration(attributeDefinition, dataTypes));
-												break;
+														break;
 											
-						case ReqIFConst.XHTML:		this.attributeDefinitions.put(attDefID, new AttributeDefinitionXHTML(attributeDefinition, dataTypes));
-												break;
+						case ReqIFConst.XHTML:			this.attributeDefinitions.put(attDefID, new AttributeDefinitionXHTML(attributeDefinition, dataTypes));
+														break;
 											
-						default:				this.attributeDefinitions.put(attDefID, new AttributeDefinition(attributeDefinition, dataTypes));
-												break;
+						default:						this.attributeDefinitions.put(attDefID, new AttributeDefinition(attributeDefinition, dataTypes));
+														break;
 					}
 				}
 			}

@@ -63,7 +63,7 @@ public class SpecHierarchy {
 	}
 	
 	public String getType() {
-		return this.specObject.getSpecType();
+		return this.specObject.getType();
 	}
 	
 	public boolean isREQ() {

@@ -23,7 +23,7 @@ public class AttributeValue {
 	}
 	
 	public String getDatatype() {
-		return this.type.getType().getType();
+		return this.type.getDataType().getType();
 	}
 	
 	

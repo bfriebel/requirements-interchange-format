@@ -10,7 +10,7 @@ import net.lingala.zip4j.model.FileHeader;
 public class ReqIFz extends ReqIFFile {
 	
 	
-	public ReqIFz(String filePath) {
+	public ReqIFz(String filePath) {				//		TODO: use java.util.zip
 		
 		try {
 			

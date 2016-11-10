@@ -15,7 +15,7 @@ public class AttributeDefinition {
 	private String id;
 	private String name;
 	private Datatype type;
-	private String defaultValue = "";
+	private String defaultValue;
 	
 	
 	
@@ -28,7 +28,7 @@ public class AttributeDefinition {
 		return this.name;
 	}
 	
-	public Datatype getType() {
+	public Datatype getDataType() {
 		return this.type;
 	}
 	
@@ -52,7 +52,9 @@ public class AttributeDefinition {
 		if(defVal.getLength() > 0) {
 			
 			Node attDefVal = defVal.item(0).getChildNodes().item(1);
-			this.defaultValue = attDefVal.getAttributes().getNamedItem(ReqIFConst.THE_VALUE).getTextContent();
+			if(attDefVal != null && attDefVal.hasAttributes() && attDefVal.getAttributes().getNamedItem(ReqIFConst.THE_VALUE) != null) {
+				this.defaultValue = attDefVal.getAttributes().getNamedItem(ReqIFConst.THE_VALUE).getTextContent();
+			}
 		}
 	}
 
