@@ -7,13 +7,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.uni_stuttgart.ils.reqif4j.reqif.ReqIFConst;
+import de.uni_stuttgart.ils.reqif4j.xhtml.XHTMLElementDiv;
 
 public class AttributeValueXHTML extends AttributeValue {
 	
+	XHTMLElementDiv divValue;
 	
 	public AttributeValueXHTML(Node xhtmlContent, AttributeDefinition type) {
 		super(type);
 		
+		this.divValue = new XHTMLElementDiv(((Element)xhtmlContent).getElementsByTagName(XHTML.DIV).item(0));
 		this.value = deconstructXHTML(xhtmlContent);
 	}
 	
@@ -21,6 +24,10 @@ public class AttributeValueXHTML extends AttributeValue {
 		super(value, type);
 		
 		
+	}
+	
+	public XHTMLElementDiv getDivValue() {
+		return this.divValue;
 	}
 	
 	
@@ -172,6 +179,7 @@ public class AttributeValueXHTML extends AttributeValue {
 					}else if(leName.endsWith("ul")) {
 						list.add("L");
 						list.addAll(list(listChild));
+						//list.add("_L");
 					//*/
 						
 					}else if(leName.endsWith("table")) {
@@ -183,6 +191,8 @@ public class AttributeValueXHTML extends AttributeValue {
 			}
 		}
 		//*/
+		
+		list.add("/L");
 		
 		return list;
 	}

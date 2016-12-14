@@ -8,4 +8,9 @@ public class AttributeValueString extends AttributeValue {
 		
 	}
 
+	@Override
+	public Object getValue() {
+		return (String)this.value;
+	}
+
 }

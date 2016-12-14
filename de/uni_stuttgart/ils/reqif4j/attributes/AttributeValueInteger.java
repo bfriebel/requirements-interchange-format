@@ -9,4 +9,9 @@ public class AttributeValueInteger extends AttributeValue {
 		this.value = Integer.parseInt(value);
 	}
 
+	@Override
+	public Object getValue() {
+		return (int)this.value;
+	}
+	
 }

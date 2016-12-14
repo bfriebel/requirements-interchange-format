@@ -10,8 +10,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.uni_stuttgart.ils.reqif4j.attributes.AttributeValue;
+import de.uni_stuttgart.ils.reqif4j.attributes.AttributeValueXHTML;
 import de.uni_stuttgart.ils.reqif4j.attributes.AttributeValueXHTMLElementList;
 import de.uni_stuttgart.ils.reqif4j.reqif.ReqIFConst;
+import de.uni_stuttgart.ils.reqif4j.xhtml.XHTMLNode;
+import de.uni_stuttgart.ils.reqif4j.xhtml.XHTMLElementDiv;
 
 public class SpecHierarchy {
 	
@@ -57,6 +60,18 @@ public class SpecHierarchy {
 		for(AttributeValue attributeValue: this.specObject.getAttributes().values()) {
 			if(attributeValue.getDatatype().equals(ReqIFConst.XHTML)) {
 				return (AttributeValueXHTMLElementList)attributeValue.getValue();
+			}
+		}
+		return null;
+	}
+	
+	public List<XHTMLNode> getXHTMLDivContent() {
+		for(AttributeValue attributeValue: this.specObject.getAttributes().values()) {
+			if(attributeValue instanceof AttributeValueXHTML) {
+				XHTMLElementDiv value = ((AttributeValueXHTML)attributeValue).getDivValue();
+				if(value != null) {
+					return value.getChildren();
+				}
 			}
 		}
 		return null;

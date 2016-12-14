@@ -12,5 +12,10 @@ public class AttributeValueBoolean extends AttributeValue {
 			this.value = false;
 		}
 	}
-
+	
+	@Override
+	public Object getValue() {
+		return (boolean)this.value;
+	}
+	
 }
